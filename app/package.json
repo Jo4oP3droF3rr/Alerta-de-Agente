@@ -1,0 +1,60 @@
+{
+  "name": "monitor-avisos",
+  "version": "1.1.0",
+  "description": "App desktop que recebe avisos em Markdown (webhook local ou servidor na VPS)",
+  "author": "Alerta de Agente",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "node build/gerar-config.js && electron .",
+    "teste": "node enviar-teste.js",
+    "dist": "node build/gerar-icone.js && node build/gerar-config.js && electron-builder --win nsis --publish never",
+    "publicar": "node build/publicar.js"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^26.18.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.4.17",
+    "electron-updater": "^6.8.11",
+    "marked": "^18.2.0"
+  },
+  "build": {
+    "appId": "com.monitoravisos.app",
+    "productName": "Monitor de Avisos",
+    "artifactName": "Monitor-de-Avisos-Setup-${version}.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "styles.css",
+      "config.gerado.json",
+      "package.json"
+    ],
+    "publish": {
+      "provider": "generic",
+      "url": "https://definido-em-tempo-de-execucao.invalid/updates"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Monitor de Avisos",
+      "uninstallDisplayName": "Monitor de Avisos",
+      "runAfterFinish": true,
+      "include": "build/installer.nsh"
+    }
+  }
+}

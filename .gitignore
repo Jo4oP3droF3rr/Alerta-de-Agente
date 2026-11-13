@@ -1,0 +1,18 @@
+# Segredos: endereço do servidor e tokens ficam só no .env
+.env
+**/.env
+app/config.gerado.json
+
+# Dependências e builds
+node_modules/
+app/dist/
+app/build/icon.png
+
+# Dados do servidor
+server/data/
+server/updates/*
+!server/updates/.gitkeep
+
+# Sistema
+.DS_Store
+Thumbs.db

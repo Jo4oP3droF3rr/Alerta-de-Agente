@@ -1,0 +1,6 @@
+{$DOMINIO} {
+	reverse_proxy servidor:3000 {
+		# entrega os eventos em tempo real sem segurar em buffer
+		flush_interval -1
+	}
+}

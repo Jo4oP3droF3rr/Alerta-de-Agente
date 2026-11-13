@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+  <title>Monitor de Avisos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="barra-titulo">
+    <span class="barra-nome">Monitor de Avisos</span>
+    <button id="tema" class="btn-tema" type="button" title="Alternar tema"></button>
+  </header>
+
+  <div class="app">
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <span class="sidebar-title">Avisos</span>
+      <span id="contador" class="contador"></span>
+    </header>
+    <ul id="lista" class="lista"></ul>
+    <footer class="sidebar-footer">
+      <span id="endereco" class="endereco"></span>
+      <button id="limpar" class="btn btn-link" type="button">Limpar</button>
+    </footer>
+  </aside>
+
+  <main id="detalhe" class="detalhe">
+    <div class="vazio">
+      <p>Nenhum aviso selecionado</p>
+      <p class="vazio-sub">Os avisos recebidos aparecem na barra lateral.</p>
+    </div>
+  </main>
+  </div>
+
+  <div id="update" class="update" role="status" hidden></div>
+
+  <script src="node_modules/marked/lib/marked.umd.js"></script>
+  <script src="node_modules/dompurify/dist/purify.min.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

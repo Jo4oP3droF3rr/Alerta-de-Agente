@@ -1,0 +1,16 @@
+{
+  "name": "alerta-de-agente-servidor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Servidor de avisos e atualizações do Alerta de Agente",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
+  }
+}

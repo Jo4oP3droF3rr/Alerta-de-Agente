@@ -1,0 +1,375 @@
+:root {
+  --bg: #ffffff;
+  --bg-hover: #f7f7f7;
+  --bg-ativo: #f0f0f0;
+  --linha: #e3e3e3;
+  --texto: #1f1f1f;
+  --texto-2: #6b6b6b;
+  --texto-3: #9a9a9a;
+  --raio: 4px;
+
+  --info: #4a6fa5;
+  --alerta: #b7791f;
+  --erro: #c0392b;
+  --sucesso: #2f855a;
+
+  color-scheme: light;
+}
+
+/* O Electron liga este modo conforme o tema escolhido no app. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1c;
+    --bg-hover: #252525;
+    --bg-ativo: #2d2d2d;
+    --linha: #333333;
+    --texto: #e4e4e4;
+    --texto-2: #a3a3a3;
+    --texto-3: #767676;
+
+    --info: #7fa6dc;
+    --alerta: #d9a54a;
+    --erro: #e0706a;
+    --sucesso: #5fb88a;
+
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--texto);
+  font: 14px/1.5 "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- Barra de título própria ---------- */
+.barra-titulo {
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* 140px à direita = espaço dos botões minimizar/maximizar/fechar */
+  padding: 0 140px 0 16px;
+  border-bottom: 1px solid var(--linha);
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+.barra-nome {
+  font-size: 12px;
+  color: var(--texto-2);
+}
+
+.btn-tema {
+  margin-left: auto;
+  font: inherit;
+  font-size: 12px;
+  color: var(--texto-2);
+  background: none;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 1px 8px;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+.btn-tema:hover { color: var(--texto); background: var(--bg-hover); }
+
+.app {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* ---------- Barra lateral ---------- */
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--linha);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.sidebar-title { font-weight: 600; font-size: 15px; }
+
+.contador {
+  font-size: 12px;
+  color: var(--texto-2);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 0 6px;
+}
+.contador:empty { display: none; }
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.item {
+  padding: 10px 16px 10px 20px;
+  border-bottom: 1px solid var(--linha);
+  cursor: pointer;
+  position: relative;
+}
+.item:hover { background: var(--bg-hover); }
+.item.ativo { background: var(--bg-ativo); }
+
+.item.nao-lido::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 17px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--info);
+}
+
+.item-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.item-titulo {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item.nao-lido .item-titulo { font-weight: 600; }
+
+.item-hora {
+  font-size: 12px;
+  color: var(--texto-3);
+  flex-shrink: 0;
+}
+
+.item-previa {
+  font-size: 13px;
+  color: var(--texto-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lista-vazia {
+  padding: 24px 16px;
+  color: var(--texto-3);
+  font-size: 13px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--linha);
+  font-size: 12px;
+  color: var(--texto-3);
+}
+
+/* ---------- Área do aviso ---------- */
+.detalhe {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.vazio {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--texto-2);
+}
+.vazio p { margin: 0; }
+.vazio-sub { font-size: 13px; color: var(--texto-3); margin-top: 4px !important; }
+
+/* ---------- Conteúdo em Markdown ---------- */
+.markdown {
+  max-width: 860px;
+  padding: 28px 36px 48px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+.markdown > :first-child { margin-top: 0; }
+.markdown > :last-child { margin-bottom: 0; }
+
+.markdown h1, .markdown h2, .markdown h3,
+.markdown h4, .markdown h5, .markdown h6 {
+  margin: 1.4em 0 .5em;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.markdown h1 { font-size: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--linha); }
+.markdown h2 { font-size: 19px; padding-bottom: 6px; border-bottom: 1px solid var(--linha); }
+.markdown h3 { font-size: 16px; }
+.markdown h4, .markdown h5, .markdown h6 { font-size: 14px; color: var(--texto-2); }
+
+.markdown p, .markdown ul, .markdown ol,
+.markdown blockquote, .markdown pre, .markdown table { margin: 0 0 1em; }
+
+.markdown ul, .markdown ol { padding-left: 1.6em; }
+.markdown li + li { margin-top: .25em; }
+.markdown li > input[type="checkbox"] { margin: 0 6px 0 0; vertical-align: -1px; }
+
+.markdown a { color: var(--info); text-decoration: none; }
+.markdown a:hover { text-decoration: underline; }
+
+.markdown hr { border: none; border-top: 1px solid var(--linha); margin: 1.6em 0; }
+
+.markdown blockquote {
+  padding: 2px 14px;
+  color: var(--texto-2);
+  border-left: 3px solid var(--linha);
+}
+
+.markdown code {
+  font: 12.5px Consolas, monospace;
+  background: var(--bg-hover);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 1px 5px;
+}
+.markdown pre {
+  background: var(--bg-hover);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+  overflow-x: auto;
+}
+.markdown pre code { background: none; border: none; padding: 0; font-size: 12.5px; }
+
+.markdown table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  font-size: 13px;
+}
+.markdown th, .markdown td {
+  border: 1px solid var(--linha);
+  padding: 6px 12px;
+  text-align: left;
+}
+.markdown th { background: var(--bg-hover); font-weight: 600; }
+
+.markdown img { max-width: 100%; border-radius: var(--raio); }
+
+/* ---------- Status do servidor (rodapé) ---------- */
+.endereco::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: 1px;
+  background: var(--texto-3);
+}
+.endereco.status-conectado::before { background: var(--sucesso); }
+.endereco.status-offline::before { background: var(--alerta); }
+
+/* ---------- Popup de atualização ---------- */
+.update {
+  position: fixed;
+  left: 16px;
+  bottom: 52px;
+  width: 268px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+  z-index: 10;
+}
+.update[hidden] { display: none; }
+
+.update-titulo { font-weight: 600; font-size: 13px; }
+.update-texto { font-size: 12px; color: var(--texto-2); margin-top: 2px; }
+
+.update-barra {
+  height: 3px;
+  margin-top: 10px;
+  background: var(--bg-ativo);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+.update-progresso {
+  height: 100%;
+  background: var(--info);
+  transition: width .3s;
+}
+
+.update-acoes {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* ---------- Excluir na barra lateral ---------- */
+.item-excluir {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 15px;
+  line-height: 18px;
+  color: var(--texto-3);
+  background: var(--bg);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  cursor: pointer;
+  display: none;
+}
+.item:hover .item-excluir { display: block; }
+.item-excluir:hover { color: var(--texto); }
+
+/* ---------- Botões ---------- */
+.btn {
+  font: inherit;
+  font-size: 13px;
+  color: var(--texto);
+  background: var(--bg);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.btn:hover { background: var(--bg-hover); }
+
+.btn-link {
+  border: none;
+  padding: 0;
+  color: var(--texto-2);
+  background: none;
+  font-size: 12px;
+}
+.btn-link:hover { color: var(--texto); background: none; text-decoration: underline; }

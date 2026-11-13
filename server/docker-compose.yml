@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-alerta}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+      POSTGRES_DB: ${POSTGRES_DB:-alerta}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    # Sem "ports": o banco só é acessível pelos outros containers, nunca pela internet.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  servidor:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      TOKEN_ENVIO: ${TOKEN_ENVIO}
+      TOKEN_LEITURA: ${TOKEN_LEITURA}
+      MAX_AVISOS: ${MAX_AVISOS:-0}
+      PGHOST: postgres
+      PGUSER: ${POSTGRES_USER:-alerta}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB:-alerta}
+    volumes:
+      - ./updates:/updates:ro
+    ports:
+      # Só acessível pela própria máquina; o acesso externo passa pelo Caddy (HTTPS).
+      - "127.0.0.1:3000:3000"
+
+  # HTTPS automático (Let's Encrypt) para o domínio definido em DOMINIO.
+  # Para testar localmente sem domínio:  docker compose up postgres servidor
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - servidor
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMINIO: ${DOMINIO}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  postgres:
+  caddy_data:
+  caddy_config:
