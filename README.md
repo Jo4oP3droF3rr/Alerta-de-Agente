@@ -142,6 +142,16 @@ cd /opt/alerta-de-agente && git pull
 cd server && docker compose up -d --build
 ```
 
+### Alternativa: Easypanel
+
+Se a VPS usa o Easypanel, ele já tem o próprio proxy com HTTPS. Nesse caso não use o `docker-compose.yml` nem o Caddy:
+
+1. **Postgres:** crie um serviço Postgres (ex.: `alerta-db`, banco `alerta`) e copie a **URL de conexão interna**.
+2. **App**, no **mesmo projeto**: fonte GitHub com este repositório, caminho de build `/server` e build por Dockerfile.
+3. **Ambiente:** `DATABASE_URL` (a URL interna), `TOKEN_ENVIO`, `TOKEN_LEITURA`, `MAX_AVISOS=0`.
+4. **Domínios:** o seu subdomínio, apontando pra porta em que o servidor sobe. O Easypanel define `PORT=80`, então use **80**. Confira no log: `servidor na porta ...`.
+5. **Montagens:** um bind mount com caminho no host `/opt/alerta-updates` e caminho no container `/updates`. Use esse caminho no `PUBLICAR_SCP_DESTINO`.
+
 ### Banco de dados
 
 - O Postgres roda no container `postgres` com volume próprio. Não fica exposto na internet.
