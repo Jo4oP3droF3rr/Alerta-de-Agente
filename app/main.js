@@ -47,7 +47,8 @@ function salvar() {
 
 // ---------- Configurações do app ----------
 const TEMAS = { sistema: 'system', claro: 'light', escuro: 'dark' };
-const BARRA_ALTURA = 36;
+// 1px menor que a barra do HTML (36px) para a linha de baixo passar contínua sob os botões.
+const BARRA_ALTURA = 35;
 const CORES_BARRA = {
   claro: { color: '#ffffff', symbolColor: '#1f1f1f' },
   escuro: { color: '#1c1c1c', symbolColor: '#e4e4e4' },

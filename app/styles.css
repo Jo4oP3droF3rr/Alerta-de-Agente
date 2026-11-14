@@ -77,13 +77,13 @@ body {
   font-size: 12px;
   color: var(--texto-2);
   background: none;
-  border: 1px solid var(--linha);
-  border-radius: var(--raio);
-  padding: 1px 8px;
+  border: none;
+  padding: 1px 4px;
   cursor: pointer;
+  transition: opacity .15s;
   -webkit-app-region: no-drag;
 }
-.btn-tema:hover { color: var(--texto); background: var(--bg-hover); }
+.btn-tema:hover { opacity: .5; }
 
 .app {
   flex: 1;
@@ -97,7 +97,6 @@ body {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--linha);
 }
 
 .sidebar-header {
@@ -342,28 +341,29 @@ body {
   padding: 0;
   font-size: 15px;
   line-height: 18px;
-  color: var(--texto-3);
-  background: var(--bg);
-  border: 1px solid var(--linha);
-  border-radius: var(--raio);
+  color: var(--texto-2);
+  background: inherit;
+  border: none;
   cursor: pointer;
+  transition: opacity .15s;
   display: none;
 }
 .item:hover .item-excluir { display: block; }
-.item-excluir:hover { color: var(--texto); }
+.item-excluir:hover { opacity: .5; }
 
 /* ---------- Botões ---------- */
 .btn {
   font: inherit;
   font-size: 13px;
+  font-weight: 600;
   color: var(--texto);
-  background: var(--bg);
-  border: 1px solid var(--linha);
-  border-radius: var(--raio);
-  padding: 4px 12px;
+  background: none;
+  border: none;
+  padding: 4px 0;
   cursor: pointer;
+  transition: opacity .15s;
 }
-.btn:hover { background: var(--bg-hover); }
+.btn:hover { opacity: .5; }
 
 .btn-link {
   border: none;
@@ -371,5 +371,5 @@ body {
   color: var(--texto-2);
   background: none;
   font-size: 12px;
+  font-weight: 400;
 }
-.btn-link:hover { color: var(--texto); background: none; text-decoration: underline; }

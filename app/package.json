@@ -1,6 +1,6 @@
 {
   "name": "monitor-avisos",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "App desktop que recebe avisos em Markdown (webhook local ou servidor na VPS)",
   "author": "Alerta de Agente",
   "license": "MIT",
